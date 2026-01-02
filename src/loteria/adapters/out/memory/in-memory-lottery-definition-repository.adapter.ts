@@ -3,7 +3,7 @@ import {
   LotteryGameDefinition,
   LotteryGameCode,
 } from 'src/loteria/domain/aggregates/lottery-game-definition.aggregate';
-import { PrizePolicyCatalog } from 'src/loteria/domain/aggregates/tests/lottery-game-definition.aggregate.spec';
+import { PrizePolicyCatalog } from 'src/loteria/domain/policies/policies-caixa.const';
 import { LotteryGameId } from 'src/loteria/domain/identifiers/lottery-game.id';
 import { BetPriceTable } from 'src/loteria/domain/vo/bet-price-table.vo';
 import { ECurrency } from 'src/loteria/domain/vo/ecurrency.enum';

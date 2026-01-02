@@ -21,7 +21,7 @@ export const MEGA_SENA_DRAW_002 = LotteryDraw.create({
   id: 'draw-mega-sena-002',
   gameId: 'mega-sena-001',
   contestNumber: 2801,
-  status: DrawStatus.CLOSED,
+  status: DrawStatus.OPEN,
 });
 
 export const MEGA_SENA_DRAW_003 = (() => {
@@ -29,7 +29,7 @@ export const MEGA_SENA_DRAW_003 = (() => {
     id: 'draw-mega-sena-003',
     gameId: 'mega-sena-001',
     contestNumber: 2799,
-    status: DrawStatus.CLOSED,
+    status: DrawStatus.OPEN,
   });
   draw.closeBets();
   const drawNumbers = DrawNumbers.create({
@@ -56,7 +56,7 @@ export const QUINA_DRAW_002 = (() => {
     id: 'draw-quina-002',
     gameId: 'quina-001',
     contestNumber: 6499,
-    status: DrawStatus.CLOSED,
+    status: DrawStatus.OPEN,
   });
   draw.closeBets();
   const drawNumbers = DrawNumbers.create({
@@ -83,7 +83,7 @@ export const LOTOFACIL_DRAW_002 = (() => {
     id: 'draw-lotofacil-002',
     gameId: 'lotofacil-001',
     contestNumber: 3199,
-    status: DrawStatus.CLOSED,
+    status: DrawStatus.OPEN,
   });
   draw.closeBets();
   const drawNumbers = DrawNumbers.create({
@@ -110,7 +110,7 @@ export const LOTOMANIA_DRAW_002 = (() => {
     id: 'draw-lotomania-002',
     gameId: 'lotomania-001',
     contestNumber: 2499,
-    status: DrawStatus.CLOSED,
+    status: DrawStatus.OPEN,
   });
   draw.closeBets();
   const drawNumbers = DrawNumbers.create({
