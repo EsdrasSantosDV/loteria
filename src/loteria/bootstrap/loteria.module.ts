@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { LoteriaController } from './loteria.controller';
-import { LoteriaService } from './loteria.service';
+import { LoteriaController } from '../loteria.controller';
+import { LoteriaService } from '../loteria.service';
 
 @Module({
   imports: [],

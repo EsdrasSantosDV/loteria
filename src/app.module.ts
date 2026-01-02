@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoteriaModule } from './loteria/loteria.module';
+import { LoteriaModule } from './loteria/bootstrap/loteria.module';
 
 @Module({
   imports: [LoteriaModule],

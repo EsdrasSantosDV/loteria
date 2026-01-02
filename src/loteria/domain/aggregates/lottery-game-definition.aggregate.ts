@@ -9,6 +9,7 @@ import { PrizePolicy, DrawCountAware } from '../policies/prize-policy';
 import { AggregateRoot } from 'src/common/domain/aggregate-root';
 import { DomainError } from 'src/common/domain/validation/error';
 import { ValidationHandler } from 'src/common/domain/validation/validation-handler';
+import { MessagesError } from 'src/common/domain/error/messages.error.enum';
 
 export enum LotteryGameCode {
   MEGA_SENA = 'MEGA SENA',
@@ -116,25 +117,23 @@ export class LotteryGameDefinition extends AggregateRoot<LotteryGameId> {
 
   public validate(handler: ValidationHandler): void {
     if (!this.name || this.name.trim().length === 0) {
-      handler.append(new DomainError('O jogo deve possuir um nome'));
+      handler.append(new DomainError(MessagesError.LOTTERY_GAME_NAME_REQUIRED));
     }
 
     if (!this.code || String(this.code).trim().length === 0) {
-      handler.append(new DomainError('O jogo deve possuir um código'));
+      handler.append(new DomainError(MessagesError.LOTTERY_GAME_CODE_REQUIRED));
     }
 
     if (!Number.isInteger(this.drawCount) || this.drawCount <= 0) {
       handler.append(
-        new DomainError(
-          'A quantidade sorteada deve ser um inteiro maior que zero',
-        ),
+        new DomainError(MessagesError.LOTTERY_GAME_DRAW_COUNT_INVALID),
       );
     } else {
       const poolSize = this.numberPool.size();
       if (this.drawCount > poolSize) {
         handler.append(
           new DomainError(
-            `A quantidade sorteada (${this.drawCount}) não pode exceder o tamanho do universo (${poolSize})`,
+            `${MessagesError.LOTTERY_GAME_DRAW_COUNT_EXCEEDS_POOL}: quantidade sorteada (${this.drawCount}), tamanho do universo (${poolSize})`,
           ),
         );
       }
@@ -143,7 +142,7 @@ export class LotteryGameDefinition extends AggregateRoot<LotteryGameId> {
     if (this.pickCount.min < this.drawCount) {
       handler.append(
         new DomainError(
-          `A quantidade mínima de escolha (${this.pickCount.min}) não pode ser menor que a quantidade sorteada (${this.drawCount})`,
+          `${MessagesError.LOTTERY_GAME_PICK_MIN_LESS_THAN_DRAW}: quantidade mínima de escolha (${this.pickCount.min}), quantidade sorteada (${this.drawCount})`,
         ),
       );
     }
@@ -154,7 +153,7 @@ export class LotteryGameDefinition extends AggregateRoot<LotteryGameId> {
       } catch {
         handler.append(
           new DomainError(
-            `Não existe preço configurado para a quantidade de escolha '${p}' no jogo '${this.name}'`,
+            `${MessagesError.LOTTERY_GAME_PRICE_MISSING_FOR_PICK} '${p}' no jogo '${this.name}'`,
           ),
         );
       }
@@ -168,7 +167,7 @@ export class LotteryGameDefinition extends AggregateRoot<LotteryGameId> {
       if (policyDraw !== this.drawCount) {
         handler.append(
           new DomainError(
-            `Inconsistência: o jogo '${this.name}' sorteia ${this.drawCount}, mas a policy foi configurada para ${policyDraw}`,
+            `${MessagesError.LOTTERY_GAME_POLICY_DRAW_COUNT_MISMATCH}: o jogo '${this.name}' sorteia ${this.drawCount}, mas a policy foi configurada para ${policyDraw}`,
           ),
         );
       }
