@@ -7,4 +7,3 @@ export const ApplyDrawResultSchema = z.object({
 });
 
 export type ApplyDrawResultInput = z.infer<typeof ApplyDrawResultSchema>;
-

@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
 import { ResultUnwrapInterceptor } from '../adapters/interceptors/result-unwrap.interceptor';
+import { DomainExceptionFilter } from '../adapters/filters/domain-exception.filter';
 
 @Global()
 @Module({
@@ -9,6 +10,10 @@ import { ResultUnwrapInterceptor } from '../adapters/interceptors/result-unwrap.
     {
       provide: APP_INTERCEPTOR,
       useClass: ResultUnwrapInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: DomainExceptionFilter,
     },
   ],
   controllers: [],
