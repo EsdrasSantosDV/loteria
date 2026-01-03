@@ -8,4 +8,3 @@ export const CreateLotteryBetSchema = z.object({
 });
 
 export type CreateLotteryBetInput = z.infer<typeof CreateLotteryBetSchema>;
-

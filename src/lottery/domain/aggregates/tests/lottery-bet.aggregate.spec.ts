@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import { LotteryBet } from '../lottery-bet.aggregate';
 import { BetNumbers } from '../../vo/bet-numbers.vo';
 import { Money } from '../../vo/money.vo';
