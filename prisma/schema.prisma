@@ -5,9 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider        = "prisma-client"
-  output          = "../src/generated/prisma"
-  moduleFormat    = "cjs"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -15,19 +14,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String?
-  posts Post[]
+model lottery_game_definition {
+  id           String         @id
+  code         String         @unique
+  name         String
+  description  String?
+  lotteryDraws lottery_draw[]
+  lotteryBets  lottery_bet[]
 }
 
-model Post {
-  id        Int      @default(autoincrement()) @id
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model lottery_draw {
+  id             String                  @id
+  game_id        String
+  contest_number Int
+  status         String
+  created_at     DateTime                @default(now())
+  updated_at     DateTime                @updatedAt
+  draw_numbers   Json?
+  is_settled     Boolean
+  settled_at     DateTime?
+  draw_at        DateTime?
+  lottery_game   lottery_game_definition @relation(fields: [game_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  lotteryBets    lottery_bet[]
+}
+
+model lottery_bet {
+  id           String                  @id
+  draw_id      String
+  game_id      String
+  numbers      Json
+  price        Decimal
+  currency     String
+  placed_at    DateTime
+  status       String
+  settlement   Json?
+  lottery_draw lottery_draw            @relation(fields: [draw_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  lottery_game lottery_game_definition @relation(fields: [game_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+enum currency {
+  BRL
+  USD
+  EUR
 }

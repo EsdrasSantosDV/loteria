@@ -16,6 +16,8 @@ import { CreateLotteryBetUseCaseImpl } from '../application/in/services/create-l
 import { CreateLotteryBetUseCase } from '../application/in/use-cases/create-lottery-bet.use-case';
 import { CreateQuickBetUseCaseImpl } from '../application/in/services/create-quick-bet.use-case.impl';
 import { CreateQuickBetUseCase } from '../application/in/use-cases/create-quick-bet.use-case';
+import { CreateQuickBetQueueUseCaseImpl } from '../application/in/services/create-quick-bet-queue.use-case.impl';
+import { CreateQuickBetQueueUseCase } from '../application/in/use-cases/create-quick-bet-queue.use-case';
 import { RandomNumberGeneratorDomainService } from '../domain/services/abstract/random-number-generator.domain-service';
 import { RandomNumberGeneratorDomainServiceImpl } from '../domain/services/impl/random-number-generator.domain-service.impl';
 import { JobQueuePort } from '../application/out/jobs/job-queue.port';
@@ -129,5 +131,11 @@ export const serviceProviders: Provider[] = [
       LotteryBetRepositoryPort,
       LotteryDefinitionRepositoryPort,
     ],
+  },
+  {
+    provide: CreateQuickBetQueueUseCase,
+    useFactory: (drawRepo: LotteryDrawRepositoryPort, jobQueue: JobQueuePort) =>
+      new CreateQuickBetQueueUseCaseImpl(drawRepo, jobQueue),
+    inject: [LotteryDrawRepositoryPort, JobQueuePort],
   },
 ];

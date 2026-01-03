@@ -1,0 +1,28 @@
+[
+  {
+    "id": "mega-sena-001",
+    "code": "MEGA SENA",
+    "name": "Mega-Sena",
+    "description": "Escolha de 6 a 15 números entre 01 e 60"
+  },
+  {
+    "id": "quina-001",
+    "code": "QUINA",
+    "name": "Quina",
+    "description": "Quina — escolha de 5 a 15 números entre 1 e 80"
+  },
+  {
+    "id": "lotofacil-001",
+    "code": "LOTOFACIL",
+    "name": "Lotofácil",
+    "description": "Lotofácil — escolha de 15 a 20 números entre 1 e 25"
+  },
+  {
+    "id": "lotomania-001",
+    "code": "LOTOMANIA",
+    "name": "Lotomania",
+    "description": "Lotomania — escolha de 50 números entre 0 e 99"
+  }
+]
+
+

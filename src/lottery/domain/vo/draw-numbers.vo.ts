@@ -71,4 +71,8 @@ export class DrawNumbers extends ValueObject {
   protected toPrimitive(): unknown {
     return { numbers: [...this._numbers] };
   }
+
+  public static fromJson(json: { numbers: number[] }): DrawNumbers {
+    return new DrawNumbers(json.numbers);
+  }
 }

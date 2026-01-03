@@ -38,6 +38,16 @@ export class BetNumbers extends ValueObject {
     return this._numbers.map((n) => pool.format(n)).join('-');
   }
 
+  static fromJson(numbers: number[]): BetNumbers {
+    if (!numbers || numbers.length === 0) {
+      throw DomainException.with(
+        new DomainError(MessagesError.BET_NUMBERS_EMPTY),
+      );
+    }
+    const unique = Array.from(new Set(numbers)).sort((a, b) => a - b);
+    return new BetNumbers(unique);
+  }
+
   protected toPrimitive(): unknown {
     return this._numbers;
   }

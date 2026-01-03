@@ -1,0 +1,2 @@
+CREATE INDEX lottery_bet_numbers_array_idx ON "lottery_bet" USING GIN (("numbers"->'numbers'));
+CREATE INDEX lottery_draw_draw_numbers_array_idx ON "lottery_draw" USING GIN (("draw_numbers"->'numbers'));

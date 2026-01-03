@@ -1,11 +1,9 @@
-import { Temporal } from '@js-temporal/polyfill';
 import { AggregateRoot } from 'src/common/domain/aggregate-root';
 import { DomainException } from 'src/common/domain/exceptions/domain-exception';
 import { DomainError } from 'src/common/domain/validation/error';
 import { ValidationHandler } from 'src/common/domain/validation/validation-handler';
 import { MessagesError } from 'src/common/domain/error/messages.error.enum';
 import { LotteryGameId } from '../identifiers/lottery-game.id';
-import { LotteryGameDefinition } from './lottery-game-definition.aggregate';
 import { DrawNumbers } from '../vo/draw-numbers.vo';
 import { LotteryDrawId } from '../identifiers/lottery-draw.id';
 import { InstantVO } from 'src/common/domain/date/instant-date.vo';
@@ -26,23 +24,26 @@ export class LotteryDraw extends AggregateRoot<LotteryDrawId> {
   private _drawNumbers?: DrawNumbers;
 
   private _isSettled: boolean;
-  private settledAt?: InstantVO;
+  private _settledAt?: InstantVO;
 
-  private constructor(
-    id: LotteryDrawId,
-    gameId: LotteryGameId,
-    contestNumber: number,
-    scheduledAt: InstantVO,
-    status: DrawStatus,
-    drawNumbers?: DrawNumbers,
-  ) {
-    super(id);
-    this._gameId = gameId;
-    this._contestNumber = contestNumber;
-    this._scheduledAt = scheduledAt;
-    this._status = status;
-    this._drawNumbers = drawNumbers;
-    this._isSettled = false;
+  constructor(properties: {
+    id: LotteryDrawId;
+    gameId: LotteryGameId;
+    contestNumber: number;
+    scheduledAt: InstantVO;
+    status: DrawStatus;
+    drawNumbers?: DrawNumbers;
+    settledAt?: InstantVO;
+    isSettled: boolean;
+  }) {
+    super(properties.id);
+    this._gameId = properties.gameId;
+    this._contestNumber = properties.contestNumber;
+    this._scheduledAt = properties.scheduledAt;
+    this._status = properties.status;
+    this._drawNumbers = properties.drawNumbers;
+    this._isSettled = properties.isSettled;
+    this._settledAt = properties.settledAt;
   }
 
   public static create(params: {
@@ -51,13 +52,14 @@ export class LotteryDraw extends AggregateRoot<LotteryDrawId> {
     contestNumber: number;
     status?: DrawStatus;
   }): LotteryDraw {
-    return new LotteryDraw(
-      LotteryDrawId.from(params.id),
-      LotteryGameId.from(params.gameId),
-      params.contestNumber,
-      InstantVO.now(),
-      params.status ?? DrawStatus.SCHEDULED,
-    );
+    return new LotteryDraw({
+      id: LotteryDrawId.from(params.id),
+      gameId: LotteryGameId.from(params.gameId),
+      contestNumber: params.contestNumber,
+      scheduledAt: InstantVO.now(),
+      status: params.status ?? DrawStatus.SCHEDULED,
+      isSettled: false,
+    });
   }
 
   public getGameId(): LotteryGameId {
@@ -78,6 +80,10 @@ export class LotteryDraw extends AggregateRoot<LotteryDrawId> {
 
   public getDrawNumbers(): DrawNumbers | undefined {
     return this._drawNumbers;
+  }
+
+  public getSettledAt(): InstantVO {
+    return this._settledAt;
   }
 
   public open(): LotteryDraw {
@@ -118,7 +124,7 @@ export class LotteryDraw extends AggregateRoot<LotteryDrawId> {
 
   public markSettled(): LotteryDraw {
     this._isSettled = true;
-    this.settledAt = InstantVO.now();
+    this._settledAt = InstantVO.now();
     return this;
   }
 

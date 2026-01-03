@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { LotteryModule } from './lottery/bootstrap/lottery.module';
 import { CommonModule } from './common/bootstrap/common.module';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './common/bootstrap/prisma.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    PrismaModule,
     CommonModule,
   ],
   controllers: [AppController],

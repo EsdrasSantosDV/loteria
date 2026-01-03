@@ -8,7 +8,6 @@ import { MessagesError } from 'src/common/domain/error/messages.error.enum';
 import { LotteryBetId } from '../identifiers/lottery-bet.id';
 import { LotteryDrawId } from '../identifiers/lottery-draw.id';
 import { LotteryGameId } from '../identifiers/lottery-game.id';
-import { DomainException } from 'src/common/domain/exceptions/domain-exception';
 import { PrizePolicy, PrizeTier } from '../policies/prize-policy';
 
 export enum BetStatus {
@@ -28,22 +27,24 @@ export class LotteryBet extends AggregateRoot<LotteryBetId> {
   private _status: BetStatus;
   private _settlement?: PrizeTier | null;
 
-  private constructor(
-    id: LotteryBetId,
-    drawId: LotteryDrawId,
-    gameId: LotteryGameId,
-    numbers: BetNumbers,
-    price: Money,
-    placedAt: InstantVO,
-    status: BetStatus,
-  ) {
-    super(id);
-    this._drawId = drawId;
-    this._gameId = gameId;
-    this._numbers = numbers;
-    this._price = price;
-    this._placedAt = placedAt;
-    this._status = status;
+  constructor(properties: {
+    id: LotteryBetId;
+    drawId: LotteryDrawId;
+    gameId: LotteryGameId;
+    numbers: BetNumbers;
+    price: Money;
+    placedAt: InstantVO;
+    status: BetStatus;
+    settlement?: PrizeTier | null;
+  }) {
+    super(properties.id);
+    this._drawId = properties.drawId;
+    this._gameId = properties.gameId;
+    this._numbers = properties.numbers;
+    this._price = properties.price;
+    this._placedAt = properties.placedAt;
+    this._status = properties.status;
+    this._settlement = properties.settlement;
   }
 
   public static create(params: {
@@ -53,15 +54,15 @@ export class LotteryBet extends AggregateRoot<LotteryBetId> {
     numbers: BetNumbers;
     price: Money;
   }): LotteryBet {
-    return new LotteryBet(
-      LotteryBetId.from(params.id),
-      LotteryDrawId.from(params.drawId),
-      LotteryGameId.from(params.gameId),
-      params.numbers,
-      params.price,
-      InstantVO.now(),
-      BetStatus.PLACED,
-    );
+    return new LotteryBet({
+      id: LotteryBetId.from(params.id),
+      drawId: LotteryDrawId.from(params.drawId),
+      gameId: LotteryGameId.from(params.gameId),
+      numbers: params.numbers,
+      price: params.price,
+      placedAt: InstantVO.now(),
+      status: BetStatus.PLACED,
+    });
   }
 
   public getDrawId(): LotteryDrawId {

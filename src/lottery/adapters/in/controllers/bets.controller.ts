@@ -6,6 +6,7 @@ import {
   CreateLotteryBetInput,
 } from '../requests/create-lottery-bet.schema';
 import { CreateQuickBetUseCase } from 'src/lottery/application/in/use-cases/create-quick-bet.use-case';
+import { CreateQuickBetQueueUseCase } from 'src/lottery/application/in/use-cases/create-quick-bet-queue.use-case';
 import { LotteryBetRepositoryPort } from 'src/lottery/application/out/repositories/lottery-bet-repository.port';
 import { Result } from 'src/common/application/result';
 
@@ -14,6 +15,7 @@ export class BetsController {
   constructor(
     private readonly createLotteryBetUseCase: CreateLotteryBetUseCase,
     private readonly createQuickBetUseCase: CreateQuickBetUseCase,
+    private readonly createQuickBetQueueUseCase: CreateQuickBetQueueUseCase,
     private readonly betsRepo: LotteryBetRepositoryPort,
   ) {}
 
@@ -62,5 +64,17 @@ export class BetsController {
   @Get('bets/list')
   async getBetList() {
     return this.betsRepo.findAll();
+  }
+
+  @Post('bets/quick/queue/:drawId/:count')
+  async createQuickBetQueue(
+    @Param('drawId') drawId: string,
+    @Param('count') count: string,
+  ) {
+    return this.createQuickBetQueueUseCase.execute({
+      drawId,
+      count: parseInt(count, 10),
+      correlationId: crypto.randomUUID(),
+    });
   }
 }
