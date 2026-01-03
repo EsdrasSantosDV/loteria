@@ -1,6 +1,7 @@
 import { LotteryBetRepositoryPort } from 'src/lottery/application/out/repositories/lottery-bet-repository.port';
 import { LotteryBet } from 'src/lottery/domain/aggregates/lottery-bet.aggregate';
 import { LotteryBetId } from 'src/lottery/domain/identifiers/lottery-bet.id';
+import { LotteryDrawId } from 'src/lottery/domain/identifiers/lottery-draw.id';
 import { BetNumbers } from 'src/lottery/domain/vo/bet-numbers.vo';
 import { Money } from 'src/lottery/domain/vo/money.vo';
 import { ECurrency } from 'src/lottery/domain/vo/ecurrency.enum';
@@ -108,5 +109,37 @@ export class InMemoryLotteryBetRepositoryAdapter extends LotteryBetRepositoryPor
 
   findAll(): Promise<LotteryBet[]> {
     return Promise.resolve(Array.from(this.store.values()));
+  }
+
+  async listByDrawPaginated(params: {
+    drawId: LotteryDrawId;
+    cursor: string | null;
+    limit: number;
+  }): Promise<{ items: LotteryBet[]; nextCursor: string | null }> {
+    const allBets = Array.from(this.store.values()).filter((bet) =>
+      bet.getDrawId().equals(params.drawId),
+    );
+
+    const startIndex = params.cursor
+      ? allBets.findIndex((bet) => bet.getId().getValue() === params.cursor) + 1
+      : 0;
+
+    const endIndex = startIndex + params.limit;
+    const items = allBets.slice(startIndex, endIndex);
+    const nextCursor =
+      endIndex < allBets.length
+        ? (items[items.length - 1]?.getId().getValue() ?? null)
+        : null;
+
+    return {
+      items,
+      nextCursor,
+    };
+  }
+
+  async saveMany(bets: LotteryBet[]): Promise<void> {
+    for (const bet of bets) {
+      this.store.set(bet.getId().getValue(), bet);
+    }
   }
 }

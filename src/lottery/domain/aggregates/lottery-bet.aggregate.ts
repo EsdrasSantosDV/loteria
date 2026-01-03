@@ -8,6 +8,14 @@ import { MessagesError } from 'src/common/domain/error/messages.error.enum';
 import { LotteryBetId } from '../identifiers/lottery-bet.id';
 import { LotteryDrawId } from '../identifiers/lottery-draw.id';
 import { LotteryGameId } from '../identifiers/lottery-game.id';
+import { DomainException } from 'src/common/domain/exceptions/domain-exception';
+import { PrizePolicy, PrizeTier } from '../policies/prize-policy';
+
+export enum BetStatus {
+  PLACED = 'PLACED',
+  SETTLED = 'SETTLED',
+  CANCELLED = 'CANCELLED',
+}
 
 export class LotteryBet extends AggregateRoot<LotteryBetId> {
   private readonly _drawId: LotteryDrawId;
@@ -17,6 +25,9 @@ export class LotteryBet extends AggregateRoot<LotteryBetId> {
   private readonly _price: Money;
   private readonly _placedAt: InstantVO;
 
+  private _status: BetStatus;
+  private _settlement?: PrizeTier | null;
+
   private constructor(
     id: LotteryBetId,
     drawId: LotteryDrawId,
@@ -24,6 +35,7 @@ export class LotteryBet extends AggregateRoot<LotteryBetId> {
     numbers: BetNumbers,
     price: Money,
     placedAt: InstantVO,
+    status: BetStatus,
   ) {
     super(id);
     this._drawId = drawId;
@@ -31,6 +43,7 @@ export class LotteryBet extends AggregateRoot<LotteryBetId> {
     this._numbers = numbers;
     this._price = price;
     this._placedAt = placedAt;
+    this._status = status;
   }
 
   public static create(params: {
@@ -47,6 +60,7 @@ export class LotteryBet extends AggregateRoot<LotteryBetId> {
       params.numbers,
       params.price,
       InstantVO.now(),
+      BetStatus.PLACED,
     );
   }
 
@@ -64,6 +78,37 @@ export class LotteryBet extends AggregateRoot<LotteryBetId> {
   }
   public getPlacedAt(): InstantVO {
     return this._placedAt;
+  }
+  public getSettlement() {
+    return this._settlement;
+  }
+
+  public getStatus(): BetStatus {
+    return this._status;
+  }
+
+  public settle(params: { drawNumbers: number[]; prizePolicy: PrizePolicy }) {
+    if (this._status === BetStatus.SETTLED) {
+      return this._settlement ?? null;
+    }
+
+    if (this._status !== BetStatus.PLACED) {
+      return null;
+    }
+    const drawnSet = new Set<number>(params.drawNumbers);
+
+    let matches = 0;
+    for (const n of this._numbers.value) {
+      if (drawnSet.has(n)) matches++;
+    }
+
+    const prizeTier = params.prizePolicy.evaluate(matches);
+
+    this._settlement = prizeTier;
+
+    this._status = BetStatus.SETTLED;
+
+    return this._settlement;
   }
 
   public validate(handler: ValidationHandler): void {

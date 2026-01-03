@@ -25,6 +25,9 @@ export class LotteryDraw extends AggregateRoot<LotteryDrawId> {
   private _status: DrawStatus;
   private _drawNumbers?: DrawNumbers;
 
+  private _isSettled: boolean;
+  private settledAt?: InstantVO;
+
   private constructor(
     id: LotteryDrawId,
     gameId: LotteryGameId,
@@ -39,6 +42,7 @@ export class LotteryDraw extends AggregateRoot<LotteryDrawId> {
     this._scheduledAt = scheduledAt;
     this._status = status;
     this._drawNumbers = drawNumbers;
+    this._isSettled = false;
   }
 
   public static create(params: {
@@ -105,6 +109,16 @@ export class LotteryDraw extends AggregateRoot<LotteryDrawId> {
 
     this._drawNumbers = drawNumbers;
     this._status = DrawStatus.DRAWN;
+    return this;
+  }
+
+  public isSettled(): boolean {
+    return this._isSettled;
+  }
+
+  public markSettled(): LotteryDraw {
+    this._isSettled = true;
+    this.settledAt = InstantVO.now();
     return this;
   }
 

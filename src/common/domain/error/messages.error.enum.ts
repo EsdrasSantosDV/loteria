@@ -46,4 +46,6 @@ export enum MessagesError {
   LOTTERY_BET_NUMBERS_REQUIRED = 'Aposta deve possuir números',
   LOTTERY_BET_PRICE_REQUIRED = 'Aposta deve possuir preço',
   LOTTERY_BET_PLACED_AT_REQUIRED = 'Aposta deve possuir placedAt',
+  LOTTERY_BET_DRAW_MISMATCH = 'A aposta não pertence ao sorteio informado',
+  LOTTERY_BET_ALREADY_SETTLED = 'A aposta já foi liquidada',
 }

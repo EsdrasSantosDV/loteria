@@ -20,6 +20,10 @@ import { RandomNumberGeneratorDomainService } from '../domain/services/abstract/
 import { RandomNumberGeneratorDomainServiceImpl } from '../domain/services/impl/random-number-generator.domain-service.impl';
 import { JobQueuePort } from '../application/out/jobs/job-queue.port';
 import { BullMqJobQueueAdapter } from '../adapters/out/queue/bull-mq-job-queue.adapter';
+import { SettleLotteryDrawUseCaseImpl } from '../application/in/services/settle-lottery-draw.use-case.impl';
+import { SettleLotteryDrawUseCase } from '../application/in/use-cases/settle-lottery-draw.use-case';
+import { SettleBetDomainService } from '../domain/services/abstract/settle-bet.domain-service';
+import { SettleBetDomainServiceImpl } from '../domain/services/impl/settle-bet.domain-service.impl';
 
 export const serviceProviders: Provider[] = [
   {
@@ -29,6 +33,10 @@ export const serviceProviders: Provider[] = [
   {
     provide: RandomNumberGeneratorDomainService,
     useClass: RandomNumberGeneratorDomainServiceImpl,
+  },
+  {
+    provide: SettleBetDomainService,
+    useClass: SettleBetDomainServiceImpl,
   },
   {
     provide: CreateLotteryDrawUseCase,
@@ -107,6 +115,19 @@ export const serviceProviders: Provider[] = [
       LotteryDefinitionRepositoryPort,
       LotteryBetRepositoryPort,
       RandomNumberGeneratorDomainService,
+    ],
+  },
+  {
+    provide: SettleLotteryDrawUseCase,
+    useFactory: (
+      drawRepo: LotteryDrawRepositoryPort,
+      betRepo: LotteryBetRepositoryPort,
+      defRepo: LotteryDefinitionRepositoryPort,
+    ) => new SettleLotteryDrawUseCaseImpl(drawRepo, betRepo, defRepo),
+    inject: [
+      LotteryDrawRepositoryPort,
+      LotteryBetRepositoryPort,
+      LotteryDefinitionRepositoryPort,
     ],
   },
 ];
