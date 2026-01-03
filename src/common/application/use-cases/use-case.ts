@@ -1,15 +1,15 @@
 import { Result, Fail } from '../result';
 import { AppError } from '../errors/app-error';
-import { UseCaseContext } from './use-case-context';
+import { CommandMeta } from './use-case-context';
 
 export abstract class UseCase<
-  IN extends object,
+  IN extends object & CommandMeta,
   OUT,
   E extends AppError = AppError,
 > {
   public async execute(
     input: IN,
-    ctx: UseCaseContext = {},
+    ctx: CommandMeta = {},
   ): Promise<Result<OUT, E>> {
     const pre = await this.preValidate(input, ctx);
     if (pre) return pre;
@@ -21,22 +21,21 @@ export abstract class UseCase<
     return result;
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   protected async preValidate(
     _input: IN,
-    _ctx: UseCaseContext,
+    _ctx: CommandMeta,
   ): Promise<Fail<E> | null> {
     return null;
   }
 
   protected abstract doExecute(
     input: IN,
-    ctx: UseCaseContext,
+    ctx: CommandMeta,
   ): Promise<Result<OUT, E>>;
 
   protected async postExecute(
     _input: IN,
     _result: Result<OUT, E>,
-    _ctx: UseCaseContext,
+    _ctx: CommandMeta,
   ): Promise<void> {}
 }

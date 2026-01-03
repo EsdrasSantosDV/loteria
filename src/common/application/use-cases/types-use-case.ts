@@ -1,7 +1,7 @@
 import { AppError } from '../errors/app-error';
 import { Result } from '../result';
 import { UseCase } from './use-case';
-import { UseCaseContext } from './use-case-context';
+import { CommandMeta } from './use-case-context';
 
 export class Unit {
   private constructor() {}
@@ -17,7 +17,7 @@ export abstract class NoInputUseCase<
   OUT,
   E extends AppError = AppError,
 > extends UseCase<NoInput, OUT, E> {
-  public executeNoInput(ctx: UseCaseContext = {}): Promise<Result<OUT, E>> {
+  public executeNoInput(ctx: CommandMeta = {}): Promise<Result<OUT, E>> {
     return super.execute(NoInput.instance, ctx);
   }
 }
@@ -39,7 +39,7 @@ export abstract class CommandUseCase<
   E extends AppError = AppError,
 > extends UseCase<IN, OUT, E> {
   public execute(input: IN): Promise<Result<OUT, E>> {
-    const ctx: UseCaseContext = {
+    const ctx: CommandMeta = {
       correlationId: input.correlationId,
       idempotencyKey: input.idempotencyKey,
       actorId: input.actorId,
