@@ -18,7 +18,7 @@ export const MEGA_SENA_DEFINITION: LotteryGameDefinition =
     name: 'Mega-Sena',
     description: 'Escolha de 6 a 15 números entre 01 e 60',
     numberPool: NumberPool.create(1, 60),
-    pickCount: PickCount.create(1, 15),
+    pickCount: PickCount.create(6, 15),
     drawCount: 6,
     priceTable: BetPriceTable.create([
       { pickCount: 6, price: Money.ofCents(500, ECurrency.BRL) },

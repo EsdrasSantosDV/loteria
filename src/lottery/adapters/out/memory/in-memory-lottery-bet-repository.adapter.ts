@@ -101,4 +101,12 @@ export class InMemoryLotteryBetRepositoryAdapter extends LotteryBetRepositoryPor
     this.store.delete(id.getValue());
     return Promise.resolve();
   }
+
+  count(): Promise<number> {
+    return Promise.resolve(this.store.size);
+  }
+
+  findAll(): Promise<LotteryBet[]> {
+    return Promise.resolve(Array.from(this.store.values()));
+  }
 }

@@ -14,11 +14,19 @@ import { ApplyDrawResultUseCaseImpl } from '../application/in/services/apply-dra
 import { ApplyDrawResultUseCase } from '../application/in/use-cases/apply-draw-result.use-case';
 import { CreateLotteryBetUseCaseImpl } from '../application/in/services/create-lottery-bet.use-case.impl';
 import { CreateLotteryBetUseCase } from '../application/in/use-cases/create-lottery-bet.use-case';
+import { CreateQuickBetUseCaseImpl } from '../application/in/services/create-quick-bet.use-case.impl';
+import { CreateQuickBetUseCase } from '../application/in/use-cases/create-quick-bet.use-case';
+import { RandomNumberGeneratorDomainService } from '../domain/services/abstract/random-number-generator.domain-service';
+import { RandomNumberGeneratorDomainServiceImpl } from '../domain/services/impl/random-number-generator.domain-service.impl';
 
 export const serviceProviders: Provider[] = [
   {
     provide: RecordDrawDomainService,
     useClass: RecordDrawDomainServiceImpl,
+  },
+  {
+    provide: RandomNumberGeneratorDomainService,
+    useClass: RandomNumberGeneratorDomainServiceImpl,
   },
   {
     provide: CreateLotteryDrawUseCase,
@@ -69,6 +77,27 @@ export const serviceProviders: Provider[] = [
       LotteryDrawRepositoryPort,
       LotteryDefinitionRepositoryPort,
       LotteryBetRepositoryPort,
+    ],
+  },
+  {
+    provide: CreateQuickBetUseCase,
+    useFactory: (
+      drawRepo: LotteryDrawRepositoryPort,
+      defRepo: LotteryDefinitionRepositoryPort,
+      betRepo: LotteryBetRepositoryPort,
+      randomNumberGenerator: RandomNumberGeneratorDomainService,
+    ) =>
+      new CreateQuickBetUseCaseImpl(
+        drawRepo,
+        defRepo,
+        betRepo,
+        randomNumberGenerator,
+      ),
+    inject: [
+      LotteryDrawRepositoryPort,
+      LotteryDefinitionRepositoryPort,
+      LotteryBetRepositoryPort,
+      RandomNumberGeneratorDomainService,
     ],
   },
 ];

@@ -5,4 +5,7 @@ import { LotteryBetId } from 'src/lottery/domain/identifiers/lottery-bet.id';
 export abstract class LotteryBetRepositoryPort extends RepositoryPort<
   LotteryBet,
   LotteryBetId
-> {}
+> {
+  abstract count(): Promise<number>;
+  abstract findAll(): Promise<LotteryBet[]>;
+}
