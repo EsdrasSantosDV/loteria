@@ -11,10 +11,10 @@ export const LOTTERY_QUEUE = 'lottery';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (cfg: ConfigService) => {
-        const host = cfg.get<string>('REDIS_HOST', 'localhost');
-        const port = Number(cfg.get<string>('REDIS_PORT', '6379'));
-        const password = cfg.get<string>('REDIS_PASSWORD', '');
-        const db = Number(cfg.get<string>('REDIS_DB', '0'));
+        const host = cfg.get<string>('redis.host', 'localhost');
+        const port = Number(cfg.get<string>('redis.port', '6379'));
+        const password = cfg.get<string>('redis.password', '');
+        const db = Number(cfg.get<string>('redis.db', '0'));
 
         return {
           connection: {
