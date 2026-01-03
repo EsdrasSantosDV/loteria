@@ -1,4 +1,4 @@
-import { LotteryBetRepositoryPort } from 'src/lottery/application/out/lottery-bet-repository.port';
+import { LotteryBetRepositoryPort } from 'src/lottery/application/out/repositories/lottery-bet-repository.port';
 import { LotteryBet } from 'src/lottery/domain/aggregates/lottery-bet.aggregate';
 import { LotteryBetId } from 'src/lottery/domain/identifiers/lottery-bet.id';
 import { BetNumbers } from 'src/lottery/domain/vo/bet-numbers.vo';

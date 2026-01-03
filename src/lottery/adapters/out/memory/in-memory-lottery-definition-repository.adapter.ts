@@ -1,4 +1,4 @@
-import { LotteryDefinitionRepositoryPort } from 'src/lottery/application/out/lottery-definition-repository.port';
+import { LotteryDefinitionRepositoryPort } from 'src/lottery/application/out/repositories/lottery-definition-repository.port';
 import {
   LotteryGameDefinition,
   LotteryGameCode,

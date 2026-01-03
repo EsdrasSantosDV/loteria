@@ -1,5 +1,5 @@
 import { Result } from 'src/common/application/result';
-import { LotteryDrawRepositoryPort } from '../../out/lottery-draw-repository.port';
+import { LotteryDrawRepositoryPort } from '../../out/repositories/lottery-draw-repository.port';
 import { OpenLotteryDrawCommand } from '../commands/open-lottery-draw.command';
 import {
   OpenLotteryDrawUseCase,

@@ -6,7 +6,7 @@ import {
   CreateLotteryBetInput,
 } from '../requests/create-lottery-bet.schema';
 import { CreateQuickBetUseCase } from 'src/lottery/application/in/use-cases/create-quick-bet.use-case';
-import { LotteryBetRepositoryPort } from 'src/lottery/application/out/lottery-bet-repository.port';
+import { LotteryBetRepositoryPort } from 'src/lottery/application/out/repositories/lottery-bet-repository.port';
 import { Result } from 'src/common/application/result';
 
 @Controller('loteria')

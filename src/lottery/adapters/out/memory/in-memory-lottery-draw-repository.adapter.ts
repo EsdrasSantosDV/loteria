@@ -1,4 +1,4 @@
-import { LotteryDrawRepositoryPort } from 'src/lottery/application/out/lottery-draw-repository.port';
+import { LotteryDrawRepositoryPort } from 'src/lottery/application/out/repositories/lottery-draw-repository.port';
 import {
   LotteryDraw,
   DrawStatus,

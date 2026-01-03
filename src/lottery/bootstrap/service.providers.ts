@@ -3,9 +3,9 @@ import { RecordDrawDomainService } from '../domain/services/abstract/record-draw
 import { RecordDrawDomainServiceImpl } from '../domain/services/impl/record-draw.domain-service.impl';
 import { CreateLotteryDrawUseCaseImpl } from '../application/in/services/create-lottery-draw.use-case.impl';
 import { CreateLotteryDrawUseCase } from '../application/in/use-cases/create-lottery-draw.use-case';
-import { LotteryDefinitionRepositoryPort } from '../application/out/lottery-definition-repository.port';
-import { LotteryDrawRepositoryPort } from '../application/out/lottery-draw-repository.port';
-import { LotteryBetRepositoryPort } from '../application/out/lottery-bet-repository.port';
+import { LotteryDefinitionRepositoryPort } from '../application/out/repositories/lottery-definition-repository.port';
+import { LotteryDrawRepositoryPort } from '../application/out/repositories/lottery-draw-repository.port';
+import { LotteryBetRepositoryPort } from '../application/out/repositories/lottery-bet-repository.port';
 import { OpenLotteryDrawUseCaseImpl } from '../application/in/services/open-lottery-draw.use-case.impl';
 import { OpenLotteryDrawUseCase } from '../application/in/use-cases/open-lottery-draw.use-case';
 import { CloseLotteryDrawUseCaseImpl } from '../application/in/services/close-lottery-draw.use-case.impl';
@@ -18,6 +18,8 @@ import { CreateQuickBetUseCaseImpl } from '../application/in/services/create-qui
 import { CreateQuickBetUseCase } from '../application/in/use-cases/create-quick-bet.use-case';
 import { RandomNumberGeneratorDomainService } from '../domain/services/abstract/random-number-generator.domain-service';
 import { RandomNumberGeneratorDomainServiceImpl } from '../domain/services/impl/random-number-generator.domain-service.impl';
+import { JobQueuePort } from '../application/out/jobs/job-queue.port';
+import { BullMqJobQueueAdapter } from '../adapters/out/queue/bull-mq-job-queue.adapter';
 
 export const serviceProviders: Provider[] = [
   {
@@ -49,21 +51,28 @@ export const serviceProviders: Provider[] = [
     inject: [LotteryDrawRepositoryPort],
   },
   {
+    provide: JobQueuePort,
+    useClass: BullMqJobQueueAdapter,
+  },
+  {
     provide: ApplyDrawResultUseCase,
     useFactory: (
       drawRepo: LotteryDrawRepositoryPort,
       defRepo: LotteryDefinitionRepositoryPort,
       recordDrawDomainService: RecordDrawDomainService,
+      jobQueue: JobQueuePort,
     ) =>
       new ApplyDrawResultUseCaseImpl(
         drawRepo,
         defRepo,
         recordDrawDomainService,
+        jobQueue,
       ),
     inject: [
       LotteryDrawRepositoryPort,
       LotteryDefinitionRepositoryPort,
       RecordDrawDomainService,
+      JobQueuePort,
     ],
   },
   {

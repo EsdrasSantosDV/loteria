@@ -1,7 +1,7 @@
 import { Result } from 'src/common/application/result';
-import { LotteryDrawRepositoryPort } from '../../out/lottery-draw-repository.port';
-import { LotteryDefinitionRepositoryPort } from '../../out/lottery-definition-repository.port';
-import { LotteryBetRepositoryPort } from '../../out/lottery-bet-repository.port';
+import { LotteryDrawRepositoryPort } from '../../out/repositories/lottery-draw-repository.port';
+import { LotteryDefinitionRepositoryPort } from '../../out/repositories/lottery-definition-repository.port';
+import { LotteryBetRepositoryPort } from '../../out/repositories/lottery-bet-repository.port';
 import { CreateQuickBetCommand } from '../commands/create-quick-bet.command';
 import {
   CreateQuickBetUseCase,
