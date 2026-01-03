@@ -15,4 +15,9 @@ export class LotteryBetId extends Identifier<string> {
   public static from(value: string): LotteryBetId {
     return new LotteryBetId(value);
   }
+
+  public static generate(): LotteryBetId {
+    const uuid = crypto.randomUUID();
+    return new LotteryBetId(`BET-${uuid}`);
+  }
 }

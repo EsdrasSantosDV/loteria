@@ -5,12 +5,15 @@ import { CreateLotteryDrawUseCaseImpl } from '../application/in/services/create-
 import { CreateLotteryDrawUseCase } from '../application/in/use-cases/create-lottery-draw.use-case';
 import { LotteryDefinitionRepositoryPort } from '../application/out/lottery-definition-repository.port';
 import { LotteryDrawRepositoryPort } from '../application/out/lottery-draw-repository.port';
+import { LotteryBetRepositoryPort } from '../application/out/lottery-bet-repository.port';
 import { OpenLotteryDrawUseCaseImpl } from '../application/in/services/open-lottery-draw.use-case.impl';
 import { OpenLotteryDrawUseCase } from '../application/in/use-cases/open-lottery-draw.use-case';
 import { CloseLotteryDrawUseCaseImpl } from '../application/in/services/close-lottery-draw.use-case.impl';
 import { CloseLotteryDrawUseCase } from '../application/in/use-cases/close-lottery-draw.use-case';
 import { ApplyDrawResultUseCaseImpl } from '../application/in/services/apply-draw-result.use-case.impl';
 import { ApplyDrawResultUseCase } from '../application/in/use-cases/apply-draw-result.use-case';
+import { CreateLotteryBetUseCaseImpl } from '../application/in/services/create-lottery-bet.use-case.impl';
+import { CreateLotteryBetUseCase } from '../application/in/use-cases/create-lottery-bet.use-case';
 
 export const serviceProviders: Provider[] = [
   {
@@ -53,6 +56,19 @@ export const serviceProviders: Provider[] = [
       LotteryDrawRepositoryPort,
       LotteryDefinitionRepositoryPort,
       RecordDrawDomainService,
+    ],
+  },
+  {
+    provide: CreateLotteryBetUseCase,
+    useFactory: (
+      drawRepo: LotteryDrawRepositoryPort,
+      defRepo: LotteryDefinitionRepositoryPort,
+      betRepo: LotteryBetRepositoryPort,
+    ) => new CreateLotteryBetUseCaseImpl(drawRepo, defRepo, betRepo),
+    inject: [
+      LotteryDrawRepositoryPort,
+      LotteryDefinitionRepositoryPort,
+      LotteryBetRepositoryPort,
     ],
   },
 ];
