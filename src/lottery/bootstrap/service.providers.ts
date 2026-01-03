@@ -42,7 +42,17 @@ export const serviceProviders: Provider[] = [
     useFactory: (
       drawRepo: LotteryDrawRepositoryPort,
       defRepo: LotteryDefinitionRepositoryPort,
-    ) => new ApplyDrawResultUseCaseImpl(drawRepo, defRepo),
-    inject: [LotteryDrawRepositoryPort, LotteryDefinitionRepositoryPort],
+      recordDrawDomainService: RecordDrawDomainService,
+    ) =>
+      new ApplyDrawResultUseCaseImpl(
+        drawRepo,
+        defRepo,
+        recordDrawDomainService,
+      ),
+    inject: [
+      LotteryDrawRepositoryPort,
+      LotteryDefinitionRepositoryPort,
+      RecordDrawDomainService,
+    ],
   },
 ];

@@ -1,15 +1,15 @@
-import { LotteryDefinitionRepositoryPort } from 'src/loteria/application/out/lottery-definition-repository.port';
+import { LotteryDefinitionRepositoryPort } from 'src/lottery/application/out/lottery-definition-repository.port';
 import {
   LotteryGameDefinition,
   LotteryGameCode,
-} from 'src/loteria/domain/aggregates/lottery-game-definition.aggregate';
-import { PrizePolicyCatalog } from 'src/loteria/domain/policies/policies-caixa.const';
-import { LotteryGameId } from 'src/loteria/domain/identifiers/lottery-game.id';
-import { BetPriceTable } from 'src/loteria/domain/vo/bet-price-table.vo';
-import { ECurrency } from 'src/loteria/domain/vo/ecurrency.enum';
-import { Money } from 'src/loteria/domain/vo/money.vo';
-import { NumberPool } from 'src/loteria/domain/vo/number-pool.vo';
-import { PickCount } from 'src/loteria/domain/vo/pick-count.vo';
+} from 'src/lottery/domain/aggregates/lottery-game-definition.aggregate';
+import { PrizePolicyCatalog } from 'src/lottery/domain/policies/policies-caixa.const';
+import { LotteryGameId } from 'src/lottery/domain/identifiers/lottery-game.id';
+import { BetPriceTable } from 'src/lottery/domain/vo/bet-price-table.vo';
+import { ECurrency } from 'src/lottery/domain/vo/ecurrency.enum';
+import { Money } from 'src/lottery/domain/vo/money.vo';
+import { NumberPool } from 'src/lottery/domain/vo/number-pool.vo';
+import { PickCount } from 'src/lottery/domain/vo/pick-count.vo';
 
 export const MEGA_SENA_DEFINITION: LotteryGameDefinition =
   LotteryGameDefinition.create({

@@ -9,9 +9,9 @@ import {
   GameDefinitionNotFoundError,
   DrawAlreadyExistsError,
 } from '../use-cases/create-lottery-draw.use-case';
-import { LotteryGameId } from 'src/loteria/domain/identifiers/lottery-game.id';
-import { LotteryDrawId } from 'src/loteria/domain/identifiers/lottery-draw.id';
-import { LotteryDraw } from 'src/loteria/domain/aggregates/lottery-draw.aggregate';
+import { LotteryGameId } from 'src/lottery/domain/identifiers/lottery-game.id';
+import { LotteryDrawId } from 'src/lottery/domain/identifiers/lottery-draw.id';
+import { LotteryDraw } from 'src/lottery/domain/aggregates/lottery-draw.aggregate';
 
 export class CreateLotteryDrawUseCaseImpl extends CreateLotteryDrawUseCase {
   constructor(

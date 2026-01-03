@@ -8,8 +8,8 @@ import {
   DrawNotFoundError,
   DrawAlreadyDrawnError,
 } from '../use-cases/open-lottery-draw.use-case';
-import { LotteryDrawId } from 'src/loteria/domain/identifiers/lottery-draw.id';
-import { DrawStatus } from 'src/loteria/domain/aggregates/lottery-draw.aggregate';
+import { LotteryDrawId } from 'src/lottery/domain/identifiers/lottery-draw.id';
+import { DrawStatus } from 'src/lottery/domain/aggregates/lottery-draw.aggregate';
 
 export class OpenLotteryDrawUseCaseImpl extends OpenLotteryDrawUseCase {
   constructor(private readonly drawRepo: LotteryDrawRepositoryPort) {

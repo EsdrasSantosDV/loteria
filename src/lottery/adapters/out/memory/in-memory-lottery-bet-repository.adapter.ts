@@ -1,11 +1,11 @@
-import { LotteryBetRepositoryPort } from 'src/loteria/application/out/lottery-bet-repository.port';
-import { LotteryBet } from 'src/loteria/domain/aggregates/lottery-bet.aggregate';
-import { LotteryBetId } from 'src/loteria/domain/identifiers/lottery-bet.id';
-import { BetNumbers } from 'src/loteria/domain/vo/bet-numbers.vo';
-import { Money } from 'src/loteria/domain/vo/money.vo';
-import { ECurrency } from 'src/loteria/domain/vo/ecurrency.enum';
-import { NumberPool } from 'src/loteria/domain/vo/number-pool.vo';
-import { PickCount } from 'src/loteria/domain/vo/pick-count.vo';
+import { LotteryBetRepositoryPort } from 'src/lottery/application/out/lottery-bet-repository.port';
+import { LotteryBet } from 'src/lottery/domain/aggregates/lottery-bet.aggregate';
+import { LotteryBetId } from 'src/lottery/domain/identifiers/lottery-bet.id';
+import { BetNumbers } from 'src/lottery/domain/vo/bet-numbers.vo';
+import { Money } from 'src/lottery/domain/vo/money.vo';
+import { ECurrency } from 'src/lottery/domain/vo/ecurrency.enum';
+import { NumberPool } from 'src/lottery/domain/vo/number-pool.vo';
+import { PickCount } from 'src/lottery/domain/vo/pick-count.vo';
 
 const MEGA_SENA_POOL = NumberPool.create(1, 60);
 const MEGA_SENA_PICK = PickCount.create(6, 15);

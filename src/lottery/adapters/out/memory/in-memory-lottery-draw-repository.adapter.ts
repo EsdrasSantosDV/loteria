@@ -1,11 +1,11 @@
-import { LotteryDrawRepositoryPort } from 'src/loteria/application/out/lottery-draw-repository.port';
+import { LotteryDrawRepositoryPort } from 'src/lottery/application/out/lottery-draw-repository.port';
 import {
   LotteryDraw,
   DrawStatus,
-} from 'src/loteria/domain/aggregates/lottery-draw.aggregate';
-import { LotteryDrawId } from 'src/loteria/domain/identifiers/lottery-draw.id';
-import { DrawNumbers } from 'src/loteria/domain/vo/draw-numbers.vo';
-import { NumberPool } from 'src/loteria/domain/vo/number-pool.vo';
+} from 'src/lottery/domain/aggregates/lottery-draw.aggregate';
+import { LotteryDrawId } from 'src/lottery/domain/identifiers/lottery-draw.id';
+import { DrawNumbers } from 'src/lottery/domain/vo/draw-numbers.vo';
+import { NumberPool } from 'src/lottery/domain/vo/number-pool.vo';
 
 const MEGA_SENA_POOL = NumberPool.create(1, 60);
 const MEGA_SENA_DRAW_COUNT = 6;

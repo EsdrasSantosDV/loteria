@@ -9,4 +9,4 @@ import { repositoryProviders } from './repository.providers';
   providers: [...serviceProviders, ...repositoryProviders],
   controllers: [DrawsController],
 })
-export class LoteriaModule {}
+export class LotteryModule {}

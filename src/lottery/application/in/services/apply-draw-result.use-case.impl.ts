@@ -10,15 +10,15 @@ import {
   GameDefinitionNotFoundError,
   DrawAlreadyHasResultError,
 } from '../use-cases/apply-draw-result.use-case';
-import { LotteryDrawId } from 'src/loteria/domain/identifiers/lottery-draw.id';
-import { LotteryGameId } from 'src/loteria/domain/identifiers/lottery-game.id';
-import { DrawStatus } from 'src/loteria/domain/aggregates/lottery-draw.aggregate';
-import { DrawNumbers } from 'src/loteria/domain/vo/draw-numbers.vo';
+import { LotteryDrawId } from 'src/lottery/domain/identifiers/lottery-draw.id';
+import { DrawStatus } from 'src/lottery/domain/aggregates/lottery-draw.aggregate';
+import { RecordDrawDomainService } from 'src/lottery/domain/services/abstract/record-draw.domain-service';
 
 export class ApplyDrawResultUseCaseImpl extends ApplyDrawResultUseCase {
   constructor(
     private readonly drawRepo: LotteryDrawRepositoryPort,
     private readonly definitionRepo: LotteryDefinitionRepositoryPort,
+    private readonly recordDrawDomainService: RecordDrawDomainService,
   ) {
     super();
   }
@@ -44,18 +44,16 @@ export class ApplyDrawResultUseCaseImpl extends ApplyDrawResultUseCase {
       return Result.fail(new GameDefinitionNotFoundError(gameId.getValue()));
     }
 
-    const drawNumbers = DrawNumbers.create({
+    const updatedDraw = this.recordDrawDomainService.execute({
+      draw,
+      game: definition,
       numbers,
-      pool: definition.getNumberPool(),
-      drawCount: definition.getDrawCount(),
     });
-
-    const updatedDraw = draw.applyDrawResult(drawNumbers);
     await this.drawRepo.save(updatedDraw);
 
     return Result.ok({
       drawId: updatedDraw.getId().getValue(),
-      numbers: drawNumbers.values,
+      numbers: updatedDraw.getDrawNumbers()?.values ?? [],
     });
   }
 }

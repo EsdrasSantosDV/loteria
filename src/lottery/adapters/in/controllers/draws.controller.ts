@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Patch, Param } from '@nestjs/common';
 import { ZodBody } from 'src/common/adapters/http/zod/zod-body.decorator';
-import { CreateLotteryDrawUseCase } from 'src/loteria/application/in/use-cases/create-lottery-draw.use-case';
+import { CreateLotteryDrawUseCase } from 'src/lottery/application/in/use-cases/create-lottery-draw.use-case';
 import {
   CreateLotteryDrawSchema,
   CreateLotteryDrawInput,
 } from '../requests/create-lottery-draw.schema';
-import { OpenLotteryDrawUseCase } from 'src/loteria/application/in/use-cases/open-lottery-draw.use-case';
-import { CloseLotteryDrawUseCase } from 'src/loteria/application/in/use-cases/close-lottery-draw.use-case';
-import { ApplyDrawResultUseCase } from 'src/loteria/application/in/use-cases/apply-draw-result.use-case';
+import { OpenLotteryDrawUseCase } from 'src/lottery/application/in/use-cases/open-lottery-draw.use-case';
+import { CloseLotteryDrawUseCase } from 'src/lottery/application/in/use-cases/close-lottery-draw.use-case';
+import { ApplyDrawResultUseCase } from 'src/lottery/application/in/use-cases/apply-draw-result.use-case';
 import {
   ApplyDrawResultSchema,
   ApplyDrawResultInput,
