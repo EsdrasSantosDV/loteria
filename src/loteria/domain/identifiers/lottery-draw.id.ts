@@ -13,6 +13,11 @@ export class LotteryDrawId extends Identifier<string> {
     return new LotteryDrawId(value);
   }
 
+  public static generate(): LotteryDrawId {
+    const uuid = crypto.randomUUID();
+    return new LotteryDrawId(`GAME-${uuid}`);
+  }
+
   protected toPrimitive(): unknown {
     return { value: this.value };
   }

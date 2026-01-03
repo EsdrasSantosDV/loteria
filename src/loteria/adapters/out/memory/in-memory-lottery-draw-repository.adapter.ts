@@ -154,4 +154,17 @@ export class InMemoryLotteryDrawRepositoryAdapter extends LotteryDrawRepositoryP
     this.store.delete(id.getValue());
     return Promise.resolve();
   }
+
+  existsByGameAndContest(
+    gameId: string,
+    contestNumber: number,
+  ): Promise<boolean> {
+    return Promise.resolve(
+      Array.from(this.store.values()).some(
+        (draw) =>
+          draw.getGameId().getValue() === gameId &&
+          draw.getContestNumber() === contestNumber,
+      ),
+    );
+  }
 }
