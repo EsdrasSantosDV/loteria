@@ -14,7 +14,7 @@ import {
 } from '../requests/apply-draw-result.schema';
 
 @Controller('loteria')
-export class LoteriaController {
+export class DrawsController {
   constructor(
     private readonly createLotteryDrawUseCase: CreateLotteryDrawUseCase,
     private readonly openLotteryDrawUseCase: OpenLotteryDrawUseCase,
