@@ -159,6 +159,42 @@ export class PrismaLotteryDefinitionRepositoryAdapter extends LotteryDefinitionR
     });
   }
 
+  async getDefinitions(
+    search?: string,
+    page?: number,
+    pageSize?: number,
+  ): Promise<LotteryGameDefinition[]> {
+    const dbRecords = await this.prisma.lottery_game_definition.findMany({
+      where: { name: { contains: search ?? '' } },
+      skip: page * pageSize,
+      take: pageSize,
+    });
+
+    return dbRecords
+      .map((dbRecord) => {
+        const definition = DEFINITIONS_BY_CODE.get(
+          dbRecord.code as LotteryGameCode,
+        );
+
+        if (!definition) {
+          return null;
+        }
+
+        return LotteryGameDefinition.create({
+          id: dbRecord.id,
+          code: definition.getCode(),
+          name: definition.getName(),
+          description: definition.getDescription(),
+          numberPool: definition.getNumberPool(),
+          pickCount: definition.getPickCount(),
+          drawCount: definition.getDrawCount(),
+          priceTable: definition.getPriceTable(),
+          prizePolicy: definition.getPrizePolicy(),
+        });
+      })
+      .filter((def): def is LotteryGameDefinition => def !== null);
+  }
+
   async deleteById(id: LotteryGameId): Promise<void> {
     await this.prisma.lottery_game_definition.delete({
       where: { id: id.getValue() },

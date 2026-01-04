@@ -7,7 +7,8 @@ export type ErrorKind =
   | 'UNAUTHORIZED'
   | 'FORBIDDEN'
   | 'INVARIANT'
-  | 'UNEXPECTED';
+  | 'UNEXPECTED'
+  | 'INTERNAL';
 
 export abstract class AppError<
   Code extends string = string,

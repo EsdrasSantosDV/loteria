@@ -118,6 +118,18 @@ export class InMemoryLotteryDefinitionRepositoryAdapter extends LotteryDefinitio
     return Promise.resolve();
   }
 
+  getDefinitions(
+    search?: string,
+    page?: number,
+    pageSize?: number,
+  ): Promise<LotteryGameDefinition[]> {
+    return Promise.resolve(
+      Array.from(this.store.values())
+        .filter((definition) => definition.getName().includes(search ?? ''))
+        .slice(page * pageSize, (page + 1) * pageSize),
+    );
+  }
+
   getByCode(code: LotteryGameCode): Promise<LotteryGameDefinition | null> {
     return Promise.resolve(
       Array.from(this.store.values()).find(

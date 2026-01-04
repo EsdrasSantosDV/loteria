@@ -18,6 +18,13 @@ export enum LotteryGameCode {
   LOTOMANIA = 'LOTOMANIA',
 }
 
+export const GAME_ICONS: Record<LotteryGameCode, string> = {
+  [LotteryGameCode.MEGA_SENA]: 'clover',
+  [LotteryGameCode.QUINA]: 'star',
+  [LotteryGameCode.LOTOFACIL]: 'sparkles',
+  [LotteryGameCode.LOTOMANIA]: 'diamond',
+};
+
 export class LotteryGameDefinition extends AggregateRoot<LotteryGameId> {
   private readonly code: LotteryGameCode;
   private readonly name: string;
@@ -109,6 +116,10 @@ export class LotteryGameDefinition extends AggregateRoot<LotteryGameId> {
 
   public getPrizePolicy(): PrizePolicy {
     return this.prizePolicy;
+  }
+
+  public getIcon(): string {
+    return GAME_ICONS[this.code];
   }
 
   public priceForPickCount(pickCount: number): Money {

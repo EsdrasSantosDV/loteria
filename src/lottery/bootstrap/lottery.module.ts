@@ -6,10 +6,17 @@ import { serviceProviders } from './service.providers';
 import { repositoryProviders } from './repository.providers';
 import { QueueModule } from 'src/common/bootstrap/queue.module';
 import { LotteryProcessor } from '../adapters/out/queue/lottery.processor';
+import { queryProviders } from './query.providers';
+import { LotteryController } from '../adapters/in/controllers/lottery.controller';
 
 @Module({
   imports: [QueueModule],
-  providers: [...serviceProviders, ...repositoryProviders, LotteryProcessor],
-  controllers: [DrawsController, BetsController],
+  providers: [
+    ...serviceProviders,
+    ...repositoryProviders,
+    ...queryProviders,
+    LotteryProcessor,
+  ],
+  controllers: [DrawsController, BetsController, LotteryController],
 })
 export class LotteryModule {}

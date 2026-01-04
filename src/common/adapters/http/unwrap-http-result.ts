@@ -31,6 +31,9 @@ export function unwrapHttpResult<T>(result: Result<T, AppError>): T {
     case 'FORBIDDEN':
       throw new ForbiddenException(error);
 
+    case 'INTERNAL':
+      throw new InternalServerErrorException(error);
+
     default:
       throw new InternalServerErrorException({
         code: error.code,

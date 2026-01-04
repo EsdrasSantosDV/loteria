@@ -76,6 +76,10 @@ export class NumberPool extends ValueObject {
     return this._max - this._min + 1;
   }
 
+  getMax(): number {
+    return this._max;
+  }
+
   format(n: number): string {
     if (!this._zeroPaddedWidth) return String(n);
     return String(n).padStart(this._zeroPaddedWidth, '0');

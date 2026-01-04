@@ -12,4 +12,9 @@ export abstract class LotteryDefinitionRepositoryPort extends RepositoryPort<
   abstract getByCode(
     code: LotteryGameCode,
   ): Promise<LotteryGameDefinition | null>;
+  abstract getDefinitions(
+    search?: string,
+    page?: number,
+    pageSize?: number,
+  ): Promise<LotteryGameDefinition[]>;
 }
